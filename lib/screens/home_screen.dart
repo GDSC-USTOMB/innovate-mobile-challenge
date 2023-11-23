@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:noteapp/widgets/square_icon_button.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -35,11 +36,7 @@ class HomeScreen extends StatelessWidget {
           elevation: 10,
           backgroundColor: Theme.of(context).colorScheme.background,
           shape: const CircleBorder(),
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 48,
-          ),
+          child: SvgPicture.asset("assets/add.svg"),
         ),
       ),
     );
