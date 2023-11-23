@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+const ColorScheme _colorScheme = ColorScheme.dark(
+  background: Color(0xff252525),
+  onBackground: Color(0xff3B3B3B),
+);
+
 final themeData = ThemeData(
   brightness: Brightness.dark,
   useMaterial3: true,
-  scaffoldBackgroundColor: const Color(0xff252525),
-  colorScheme: const ColorScheme.dark(
-    background: Color(0xff252525),
-    onBackground: Color(0xff3B3B3B),
-  ),
+  scaffoldBackgroundColor: _colorScheme.background,
+  colorScheme: _colorScheme,
   textTheme: TextTheme(
     titleLarge: GoogleFonts.nunito(
       fontSize: 43,
@@ -22,5 +24,28 @@ final themeData = ThemeData(
   appBarTheme: const AppBarTheme(
     titleSpacing: 24,
     backgroundColor: Color(0x00000000),
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    elevation: 10,
+    backgroundColor: _colorScheme.background,
+    foregroundColor: Colors.white,
+    sizeConstraints: const BoxConstraints(
+      minHeight: 70,
+      maxHeight: 70,
+      minWidth: 70,
+      maxWidth: 70,
+    ),
+    shape: const CircleBorder(),
+  ),
+  dialogBackgroundColor: _colorScheme.background,
+  dialogTheme: DialogTheme(
+    backgroundColor: _colorScheme.background,
+    contentTextStyle: GoogleFonts.nunito(
+      fontSize: 15,
+      fontWeight: FontWeight.w400,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+    ),
   ),
 );

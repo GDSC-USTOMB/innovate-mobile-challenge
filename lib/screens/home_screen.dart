@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:noteapp/widgets/square_icon_button.dart';
 
+import 'about_dialog.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -10,11 +12,22 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notes'),
-        actions: const [
-          SquareIconButton(icon: Icon(Icons.search)),
-          SizedBox(width: 21),
-          SquareIconButton(icon: Icon(Icons.info_outline)),
-          SizedBox(width: 24),
+        actions: [
+          SquareIconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.search),
+          ),
+          const SizedBox(width: 21),
+          SquareIconButton(
+            onPressed: () {
+              showAdaptiveDialog(
+                context: context,
+                builder: (context) => const AboutNotesAppDialog(),
+              );
+            },
+            icon: const Icon(Icons.info_outline),
+          ),
+          const SizedBox(width: 24),
         ],
       ),
       body: Container(
@@ -28,16 +41,9 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: SizedBox(
-        width: 70,
-        height: 70,
-        child: FloatingActionButton(
-          onPressed: () {},
-          elevation: 10,
-          backgroundColor: Theme.of(context).colorScheme.background,
-          shape: const CircleBorder(),
-          child: SvgPicture.asset("assets/add.svg"),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: SvgPicture.asset("assets/add.svg"),
       ),
     );
   }

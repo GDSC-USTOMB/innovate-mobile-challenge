@@ -14,10 +14,12 @@ class SquareIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton.filled(
       onPressed: onPressed,
-      style: const ButtonStyle(
-        fixedSize: MaterialStatePropertyAll(Size(50, 50)),
-        backgroundColor: MaterialStatePropertyAll(Color(0xff3B3B3B)),
-        shape: MaterialStatePropertyAll(
+      style: ButtonStyle(
+        fixedSize: const MaterialStatePropertyAll(Size(50, 50)),
+        backgroundColor: MaterialStatePropertyAll(
+          Theme.of(context).colorScheme.onBackground,
+        ),
+        shape: const MaterialStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
