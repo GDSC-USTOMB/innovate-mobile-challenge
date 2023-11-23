@@ -44,10 +44,13 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Image.asset("assets/rafiki.png"),
+            const SizedBox(height: 6),
             Text(
               'Enter your first note',
               style: GoogleFonts.nunito(
                 fontSize: 20,
+                fontWeight: FontWeight.w300,
               ),
             ),
           ],
