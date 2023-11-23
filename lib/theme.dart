@@ -5,6 +5,10 @@ final themeData = ThemeData(
   brightness: Brightness.dark,
   useMaterial3: true,
   scaffoldBackgroundColor: const Color(0xff252525),
+  colorScheme: const ColorScheme.dark(
+    background: Color(0xff252525),
+    onBackground: Color(0xff3B3B3B),
+  ),
   textTheme: TextTheme(
     titleLarge: GoogleFonts.nunito(
       fontSize: 43,
