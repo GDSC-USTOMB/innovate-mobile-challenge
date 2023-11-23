@@ -39,6 +39,35 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notes'),
+        actions: [
+          IconButton.filled(
+            onPressed: () {},
+            style: const ButtonStyle(
+              fixedSize: MaterialStatePropertyAll(Size(50, 50)),
+              backgroundColor: MaterialStatePropertyAll(Color(0xff3B3B3B)),
+              shape: MaterialStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+              ),
+            ),
+            icon: const Icon(Icons.search),
+          ),
+          const SizedBox(width: 21),
+          IconButton.filled(
+            onPressed: () {},
+            style: const ButtonStyle(
+              fixedSize: MaterialStatePropertyAll(Size(50, 50)),
+              backgroundColor: MaterialStatePropertyAll(Color(0xff3B3B3B)),
+              shape: MaterialStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
+              ),
+            ),
+            icon: const Icon(Icons.info_outline),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
