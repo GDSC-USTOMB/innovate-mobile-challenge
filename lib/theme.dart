@@ -16,6 +16,10 @@ final themeData = ThemeData(
       fontSize: 43,
       fontWeight: FontWeight.w600,
     ),
+    bodyLarge: GoogleFonts.nunito(
+      fontSize: 23,
+      fontWeight: FontWeight.w400,
+    ),
     bodyMedium: GoogleFonts.nunito(
       fontSize: 20,
       fontWeight: FontWeight.w300,
