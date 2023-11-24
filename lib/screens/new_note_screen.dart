@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:noteapp/widgets/square_icon_button.dart';
 
 import '../widgets/go_back_button.dart';
@@ -15,12 +14,12 @@ class NewNoteScreen extends StatelessWidget {
         leading: const GoBackButton(),
         actions: [
           SquareIconButton(
-            icon: SvgPicture.asset("assets/visibility.svg"),
+            icon: const Icon(Icons.visibility_outlined),
             onPressed: () {},
           ),
           const SizedBox(width: 25),
           SquareIconButton(
-            icon: SvgPicture.asset("assets/save.svg"),
+            icon: const Icon(Icons.save_outlined),
             onPressed: () {},
           ),
           const SizedBox(width: 25),
