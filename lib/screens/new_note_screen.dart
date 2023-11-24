@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:noteapp/widgets/square_icon_button.dart';
+
+import '../widgets/go_back_button.dart';
 
 class NewNoteScreen extends StatelessWidget {
   const NewNoteScreen({super.key});
@@ -11,13 +12,7 @@ class NewNoteScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 75,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 20),
-          child: SquareIconButton(
-            icon: SvgPicture.asset("assets/back.svg"),
-            onPressed: () => context.pop(),
-          ),
-        ),
+        leading: const GoBackButton(),
         actions: [
           SquareIconButton(
             icon: SvgPicture.asset("assets/visibility.svg"),
