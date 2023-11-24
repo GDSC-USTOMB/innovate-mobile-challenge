@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
-import 'package:noteapp/screens/new_note_screen.dart';
 
-import '../screens/home_screen.dart';
+import '../ui/screens/home_screen.dart';
+import '../ui/screens/new_note_screen.dart';
 
 GoRouter appRouter = GoRouter(
   initialLocation: '/',

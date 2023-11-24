@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:noteapp/widgets/square_icon_button.dart';
 
 import '../widgets/go_back_button.dart';
+import '../widgets/square_icon_button.dart';
 
 class NewNoteScreen extends StatelessWidget {
   const NewNoteScreen({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:noteapp/widgets/square_icon_button.dart';
 
+import '../widgets/square_icon_button.dart';
 import 'about_dialog.dart';
 
 class HomeScreen extends StatelessWidget {
