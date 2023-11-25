@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:noteapp/bloc/fetch_notes/fetch_notes_bloc.dart';
+import 'package:noteapp/data/interfaces/notes_repository.dart';
 
 import '../widgets/note_tile.dart';
 import '../widgets/square_icon_button.dart';
@@ -87,9 +88,36 @@ class _HomeScreenState extends State<HomeScreen> {
                         Color(0xFF9EFFFF),
                         Color(0xFFB69CFF),
                       ];
-                      return NoteTile(
-                        state.notes[index],
-                        cardColor: colors[index % colors.length],
+                      return Dismissible(
+                        key: ValueKey(state.notes[index]),
+                        background: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Icon(
+                            Icons.delete,
+                            size: 48,
+                          ),
+                        ),
+                        onDismissed: (_) {
+                          GetIt.I
+                              .get<NotesRepository>()
+                              .deleteNote(state.notes[index])
+                              .then((value) {
+                            final message = value != null
+                                ? value.message
+                                : "Note was deleted successfully";
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(message)),
+                            );
+                            refreshIndicatorKey.currentState?.show();
+                          });
+                        },
+                        child: NoteTile(
+                          state.notes[index],
+                          cardColor: colors[index % colors.length],
+                        ),
                       );
                     },
                   );

@@ -14,23 +14,25 @@ class NoteTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 46,
+        vertical: 22,
+      ),
+      decoration: BoxDecoration(
+        color: cardColor,
         borderRadius: BorderRadius.circular(10),
       ),
-      color: cardColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 46,
-          vertical: 22,
-        ),
-        child: Text(
-          note.title,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Colors.black,
-                fontSize: 25,
-              ),
-        ),
+      constraints: const BoxConstraints(
+        minWidth: double.infinity,
+      ),
+      child: Text(
+        note.title,
+        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Colors.black,
+              fontSize: 25,
+            ),
       ),
     );
   }
