@@ -74,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context, state) {
                 if (state is FetchNotesSuccess && state.notes.isNotEmpty) {
                   return ListView.separated(
-                    shrinkWrap: true,
                     itemCount: state.notes.length,
                     separatorBuilder: (context, index) => const SizedBox(
                       height: 25,
