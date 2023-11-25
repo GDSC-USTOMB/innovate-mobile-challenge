@@ -63,11 +63,13 @@ class _HomeScreenState extends State<HomeScreen> {
             key: refreshIndicatorKey,
             onRefresh: () async {
               bloc.add(FetchNotes());
-              bloc.stream.firstWhere(
+              await bloc.stream.firstWhere(
                 (state) => state is! FetchNotesInProgress,
               );
             },
             child: BlocBuilder<FetchNotesBloc, FetchNotesState>(
+              buildWhen: (previous, current) =>
+                  current is! FetchNotesInProgress,
               builder: (context, state) {
                 if (state is FetchNotesSuccess && state.notes.isNotEmpty) {
                   return ListView.separated(
