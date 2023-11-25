@@ -1,5 +1,7 @@
 # Flutter Note-Taking App Challenge
 
+[![Dart](https://github.com/GDSC-USTOMB/innovate-mobile-challenge/actions/workflows/dart.yml/badge.svg)](https://github.com/GDSC-USTOMB/innovate-mobile-challenge/actions/workflows/dart.yml)
+
 **Objective:**
 
 To develop an innovative and user-friendly Flutter mobile app for note-taking that enhances the traditional note-taking experience with unique features and functionalities.
