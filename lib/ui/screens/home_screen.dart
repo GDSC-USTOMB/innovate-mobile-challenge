@@ -101,7 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            context.push('/NewNote');
+            context.push('/NewNote').then(
+                  (value) => refreshIndicatorKey.currentState?.show(),
+                );
           },
           child: SvgPicture.asset("assets/add.svg"),
         ),
