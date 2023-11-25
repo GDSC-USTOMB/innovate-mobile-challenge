@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:noteapp/bloc/fetch_notes/fetch_notes_bloc.dart';
 
+import '../widgets/note_tile.dart';
 import '../widgets/square_icon_button.dart';
 import 'about_dialog.dart';
 
@@ -55,48 +56,62 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(width: 24),
           ],
         ),
-        body: RefreshIndicator.adaptive(
-          key: refreshIndicatorKey,
-          onRefresh: () async {
-            bloc.add(FetchNotes());
-            bloc.stream.firstWhere(
-              (state) => state is! FetchNotesInProgress,
-            );
-          },
-          child: BlocBuilder<FetchNotesBloc, FetchNotesState>(
-            builder: (context, state) {
-              if (state is FetchNotesSuccess && state.notes.isNotEmpty) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.notes.length,
-                  itemBuilder: (context, index) {
-                    final note = state.notes[index];
-                    return ListTile(
-                      title: Text(note.title),
-                      subtitle: Text(note.content),
-                    );
-                  },
-                );
-              } else if (state is FetchNotesSuccess) {
-                return SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 32),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const SizedBox(height: 180),
-                        Image.asset("assets/rafiki.png"),
-                        const SizedBox(height: 6),
-                        const Text('Enter your first note'),
-                      ],
-                    ),
-                  ),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
+        body: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 25),
+          padding: const EdgeInsets.only(top: 30),
+          child: RefreshIndicator.adaptive(
+            key: refreshIndicatorKey,
+            onRefresh: () async {
+              bloc.add(FetchNotes());
+              bloc.stream.firstWhere(
+                (state) => state is! FetchNotesInProgress,
+              );
             },
+            child: BlocBuilder<FetchNotesBloc, FetchNotesState>(
+              builder: (context, state) {
+                if (state is FetchNotesSuccess && state.notes.isNotEmpty) {
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: state.notes.length,
+                    separatorBuilder: (context, index) => const SizedBox(
+                      height: 25,
+                    ),
+                    itemBuilder: (context, index) {
+                      const List<Color> colors = [
+                        Color(0xFFFD99FF),
+                        Color(0xFFFF9E9E),
+                        Color(0xFF91F48F),
+                        Color(0xFFFFF599),
+                        Color(0xFF9EFFFF),
+                        Color(0xFFB69CFF),
+                      ];
+                      return NoteTile(
+                        state.notes[index],
+                        cardColor: colors[index % colors.length],
+                      );
+                    },
+                  );
+                } else if (state is FetchNotesSuccess) {
+                  return SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 32),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const SizedBox(height: 180),
+                          Image.asset("assets/rafiki.png"),
+                          const SizedBox(height: 6),
+                          const Text('Enter your first note'),
+                        ],
+                      ),
+                    ),
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
