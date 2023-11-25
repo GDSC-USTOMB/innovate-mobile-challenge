@@ -29,6 +29,7 @@ class LocalNotesRepository implements NotesRepository {
 
   @override
   Future<Failure?> addNote(Note note) async {
+    await initDatabase();
     await _database!.insert(
       tableName,
       note.toMap(),

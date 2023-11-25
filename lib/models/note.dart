@@ -1,5 +1,5 @@
 class Note {
-  final String? id;
+  final int? id;
   final String title;
   final String content;
 
@@ -10,7 +10,7 @@ class Note {
   });
 
   Note copyWith({
-    String? id,
+    int? id,
     String? title,
     String? content,
   }) {
@@ -21,18 +21,17 @@ class Note {
     );
   }
 
-  Map<String, String> toMap() {
-    assert(id != null);
-    return {
-      'id': id!,
-      'title': title,
-      'content': content,
-    };
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = <String, dynamic>{};
+    if (id != null) map['id'] = id;
+    map['title'] = title;
+    map['content'] = content;
+    return map;
   }
 
-  static Note fromMap(Map<String, Object?> map) {
+  static Note fromMap(Map<String, dynamic> map) {
     return Note(
-      id: map['id'] as String,
+      id: map['id'] as int,
       title: map['title'] as String,
       content: map['content'] as String,
     );
