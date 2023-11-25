@@ -2,7 +2,7 @@ part of 'save_new_note_bloc.dart';
 
 sealed class SaveNewNoteState extends Equatable {
   const SaveNewNoteState();
-  
+
   @override
   List<Object> get props => [];
 }

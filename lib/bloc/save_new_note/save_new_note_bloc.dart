@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:noteapp/data/interfaces/notes_repository.dart';
 
+import '../../data/interfaces/notes_repository.dart';
 import '../../models/failure.dart';
 import '../../models/note.dart';
 

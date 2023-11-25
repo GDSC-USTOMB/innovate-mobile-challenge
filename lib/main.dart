@@ -7,7 +7,7 @@ import 'theme.dart';
 
 void main() {
   setupLocator();
-  
+
   WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setSystemUIOverlayStyle(
