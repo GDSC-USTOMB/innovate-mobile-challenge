@@ -111,6 +111,12 @@ class SaveButton extends StatelessWidget {
         return SquareIconButton(
           icon: const Icon(Icons.save_outlined),
           onPressed: () {
+            if (titleController.text.trim().isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('The title cannot be empty')),
+              );
+              return;
+            }
             final Note note = Note(
               title: titleController.text,
               content: noteController.text,
