@@ -40,6 +40,7 @@ Create a feature-rich note-taking app that goes beyond the basic functionality o
 
 Submit your completed project with a detailed README file explaining the app's features, implementation details, and testing results.
 
+
 **Timeline:**
 
 * **Challenge Announcement:** November 18, 2023
