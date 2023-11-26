@@ -59,12 +59,12 @@ class LocalNotesRepository implements NotesRepository {
   @override
   Future<Result<List<Note>, Failure>> searchNotes(String keyword) async {
     await initDatabase();
-    final query = await _database!.query(
-      tableName,
-      where: "name LIKE ?",
-      whereArgs: ['%$keyword%'],
+
+    var res = await _database!.rawQuery(
+      "SELECT * FROM notes WHERE title LIKE ?",
+      ['%$keyword%'],
     );
-    final notes = query.map((note) => Note.fromMap(note)).toList();
-    throw Success(notes);
+    final notes = res.map((note) => Note.fromMap(note)).toList();
+    return Success(notes);
   }
 }

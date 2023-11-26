@@ -4,12 +4,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:noteapp/bloc/fetch_notes/fetch_notes_bloc.dart';
 import 'package:noteapp/data/interfaces/notes_repository.dart';
 
+import '../../models/failure.dart';
+import '../../models/note.dart';
 import '../widgets/note_tile.dart';
 import '../widgets/square_icon_button.dart';
 import 'about_dialog.dart';
+
+const List<Color> colors = [
+  Color(0xFFFD99FF),
+  Color(0xFFFF9E9E),
+  Color(0xFF91F48F),
+  Color(0xFFFFF599),
+  Color(0xFF9EFFFF),
+  Color(0xFFB69CFF),
+];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -46,7 +58,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: const Icon(Icons.search),
               ),
               viewHintText: "Search by the keyword...",
-              suggestionsBuilder: (context, controller) => [],
+              suggestionsBuilder: (context, controller) async {
+                final notes = await GetIt.I
+                    .get<NotesRepository>()
+                    .searchNotes(controller.text);
+                if (notes is Success<List<Note>, Failure> &&
+                    notes.success.isNotEmpty) {
+                  return notes.success
+                      .map(
+                        (note) => Padding(
+                          padding: const EdgeInsets.only(
+                            left: 25,
+                            right: 25,
+                            top: 25,
+                          ),
+                          child: NoteTile(note, cardColor: colors.first),
+                        ),
+                      )
+                      .toList();
+                }
+                return <Widget>[
+                  const SizedBox(height: 40),
+                  Image.asset("assets/rafiki.png"),
+                  const SizedBox(height: 6),
+                  const Center(child: Text("No results were found")),
+                ];
+              },
             ),
             const SizedBox(width: 21),
             SquareIconButton(
@@ -83,14 +120,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 25,
                     ),
                     itemBuilder: (context, index) {
-                      const List<Color> colors = [
-                        Color(0xFFFD99FF),
-                        Color(0xFFFF9E9E),
-                        Color(0xFF91F48F),
-                        Color(0xFFFFF599),
-                        Color(0xFF9EFFFF),
-                        Color(0xFFB69CFF),
-                      ];
                       return Dismissible(
                         key: ValueKey(state.notes[index]),
                         background: Container(
