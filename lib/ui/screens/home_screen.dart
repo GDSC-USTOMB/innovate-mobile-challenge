@@ -10,18 +10,12 @@ import 'package:noteapp/data/interfaces/notes_repository.dart';
 
 import '../../models/failure.dart';
 import '../../models/note.dart';
+import '../widgets/enter_your_first_note.dart';
+import '../widgets/no_results.dart';
 import '../widgets/note_tile.dart';
+import '../widgets/notes_list_view.dart';
 import '../widgets/square_icon_button.dart';
 import 'about_dialog.dart';
-
-const List<Color> colors = [
-  Color(0xFFFD99FF),
-  Color(0xFFFF9E9E),
-  Color(0xFF91F48F),
-  Color(0xFFFFF599),
-  Color(0xFF9EFFFF),
-  Color(0xFFB69CFF),
-];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -67,25 +61,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   return notes.success
                       .map(
                         (note) => Padding(
-                          padding: const EdgeInsets.only(
-                            left: 25,
-                            right: 25,
-                            top: 25,
+                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+                          child: NoteTile(
+                            note,
+                            cardColor: const Color(0xFFFD99FF),
                           ),
-                          child: NoteTile(note, cardColor: colors.first),
                         ),
                       )
                       .toList();
                 }
-                return <Widget>[
-                  const SizedBox(height: 40),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 22),
-                    child: Image.asset("assets/nothing-was-found.png"),
-                  ),
-                  const SizedBox(height: 6),
-                  const Center(child: Text("No results were found")),
-                ];
+                return noResults;
               },
             ),
             const SizedBox(width: 21),
@@ -116,61 +101,15 @@ class _HomeScreenState extends State<HomeScreen> {
               buildWhen: (previous, current) =>
                   current is! FetchNotesInProgress,
               builder: (context, state) {
-                if (state is FetchNotesSuccess && state.notes.isNotEmpty) {
-                  return ListView.separated(
-                    itemCount: state.notes.length,
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 25,
-                    ),
-                    itemBuilder: (context, index) {
-                      return Dismissible(
-                        key: ValueKey(state.notes[index]),
-                        background: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(
-                            Icons.delete,
-                            size: 48,
-                          ),
-                        ),
-                        onDismissed: (_) {
-                          GetIt.I
-                              .get<NotesRepository>()
-                              .deleteNote(state.notes[index])
-                              .then((value) {
-                            final message = value != null
-                                ? value.message
-                                : "Note was deleted successfully";
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(message)),
-                            );
-                            refreshIndicatorKey.currentState?.show();
-                          });
-                        },
-                        child: NoteTile(
-                          state.notes[index],
-                          cardColor: colors[index % colors.length],
-                        ),
-                      );
-                    },
+                if (state is FetchNotesSuccess && state.notes.isEmpty) {
+                  return const SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: EnterYourFirstNote(),
                   );
                 } else if (state is FetchNotesSuccess) {
-                  return SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 32),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const SizedBox(height: 180),
-                          Image.asset("assets/rafiki.png"),
-                          const SizedBox(height: 6),
-                          const Text('Enter your first note'),
-                        ],
-                      ),
-                    ),
+                  return NotesListView(
+                    refreshIndicatorKey: refreshIndicatorKey,
+                    notes: state.notes,
                   );
                 } else {
                   return const SizedBox.shrink();
