@@ -55,4 +55,16 @@ class LocalNotesRepository implements NotesRepository {
     final notes = query.map((note) => Note.fromMap(note)).toList();
     return Success(notes);
   }
+
+  @override
+  Future<Result<List<Note>, Failure>> searchNotes(String keyword) async {
+    await initDatabase();
+    final query = await _database!.query(
+      tableName,
+      where: "name LIKE ?",
+      whereArgs: ['%$keyword%'],
+    );
+    final notes = query.map((note) => Note.fromMap(note)).toList();
+    throw Success(notes);
+  }
 }
