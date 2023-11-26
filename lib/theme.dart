@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const ColorScheme _colorScheme = ColorScheme.dark(
+  primary: Color.fromARGB(255, 128, 128, 128),
   background: Color(0xff252525),
   onBackground: Color(0xff3B3B3B),
 );
@@ -41,15 +42,21 @@ final themeData = ThemeData(
     ),
     shape: const CircleBorder(),
   ),
-  dialogBackgroundColor: _colorScheme.background,
   dialogTheme: DialogTheme(
-    backgroundColor: _colorScheme.background,
     contentTextStyle: GoogleFonts.nunito(
       fontSize: 15,
       fontWeight: FontWeight.w400,
     ),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20),
+    ),
+  ),
+  searchViewTheme: SearchViewThemeData(
+    backgroundColor: _colorScheme.background,
+    headerHintStyle: GoogleFonts.nunito(
+      fontSize: 20,
+      fontWeight: FontWeight.w300,
+      color: const Color(0xFFCCCCCC),
     ),
   ),
 );

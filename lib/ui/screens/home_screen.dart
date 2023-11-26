@@ -40,9 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: const Text('Notes'),
           actions: [
-            SquareIconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.search),
+            SearchAnchor(
+              builder: (context, controller) => SquareIconButton(
+                onPressed: () => controller.openView(),
+                icon: const Icon(Icons.search),
+              ),
+              viewHintText: "Search by the keyword...",
+              suggestionsBuilder: (context, controller) => [],
             ),
             const SizedBox(width: 21),
             SquareIconButton(
