@@ -4,10 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:noteapp/bloc/fetch_notes/fetch_notes_bloc.dart';
 import 'package:noteapp/data/interfaces/notes_repository.dart';
 
+import '../../models/failure.dart';
+import '../../models/note.dart';
+import '../widgets/enter_your_first_note.dart';
+import '../widgets/no_results.dart';
 import '../widgets/note_tile.dart';
+import '../widgets/notes_list_view.dart';
 import '../widgets/square_icon_button.dart';
 import 'about_dialog.dart';
 
@@ -40,9 +46,32 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: const Text('Notes'),
           actions: [
-            SquareIconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.search),
+            SearchAnchor(
+              builder: (context, controller) => SquareIconButton(
+                onPressed: () => controller.openView(),
+                icon: const Icon(Icons.search),
+              ),
+              viewHintText: "Search by the keyword...",
+              suggestionsBuilder: (context, controller) async {
+                final notes = await GetIt.I
+                    .get<NotesRepository>()
+                    .searchNotes(controller.text);
+                if (notes is Success<List<Note>, Failure> &&
+                    notes.success.isNotEmpty) {
+                  return notes.success
+                      .map(
+                        (note) => Padding(
+                          padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
+                          child: NoteTile(
+                            note,
+                            cardColor: const Color(0xFFFD99FF),
+                          ),
+                        ),
+                      )
+                      .toList();
+                }
+                return noResults;
+              },
             ),
             const SizedBox(width: 21),
             SquareIconButton(
@@ -72,69 +101,15 @@ class _HomeScreenState extends State<HomeScreen> {
               buildWhen: (previous, current) =>
                   current is! FetchNotesInProgress,
               builder: (context, state) {
-                if (state is FetchNotesSuccess && state.notes.isNotEmpty) {
-                  return ListView.separated(
-                    itemCount: state.notes.length,
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 25,
-                    ),
-                    itemBuilder: (context, index) {
-                      const List<Color> colors = [
-                        Color(0xFFFD99FF),
-                        Color(0xFFFF9E9E),
-                        Color(0xFF91F48F),
-                        Color(0xFFFFF599),
-                        Color(0xFF9EFFFF),
-                        Color(0xFFB69CFF),
-                      ];
-                      return Dismissible(
-                        key: ValueKey(state.notes[index]),
-                        background: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(
-                            Icons.delete,
-                            size: 48,
-                          ),
-                        ),
-                        onDismissed: (_) {
-                          GetIt.I
-                              .get<NotesRepository>()
-                              .deleteNote(state.notes[index])
-                              .then((value) {
-                            final message = value != null
-                                ? value.message
-                                : "Note was deleted successfully";
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(message)),
-                            );
-                            refreshIndicatorKey.currentState?.show();
-                          });
-                        },
-                        child: NoteTile(
-                          state.notes[index],
-                          cardColor: colors[index % colors.length],
-                        ),
-                      );
-                    },
+                if (state is FetchNotesSuccess && state.notes.isEmpty) {
+                  return const SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: EnterYourFirstNote(),
                   );
                 } else if (state is FetchNotesSuccess) {
-                  return SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 32),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const SizedBox(height: 180),
-                          Image.asset("assets/rafiki.png"),
-                          const SizedBox(height: 6),
-                          const Text('Enter your first note'),
-                        ],
-                      ),
-                    ),
+                  return NotesListView(
+                    refreshIndicatorKey: refreshIndicatorKey,
+                    notes: state.notes,
                   );
                 } else {
                   return const SizedBox.shrink();
