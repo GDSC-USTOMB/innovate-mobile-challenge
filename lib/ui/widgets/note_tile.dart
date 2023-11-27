@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../models/note.dart';
 
@@ -14,20 +15,20 @@ class NoteTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.hardEdge,
-      padding: const EdgeInsets.symmetric(
+    return ListTile(
+      onTap: () => context.push(
+        '/NoteView',
+        extra: note,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      contentPadding: const EdgeInsets.symmetric(
         horizontal: 46,
         vertical: 22,
       ),
-      decoration: BoxDecoration(
-        color: cardColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      constraints: const BoxConstraints(
-        minWidth: double.infinity,
-      ),
-      child: Text(
+      tileColor: cardColor,
+      title: Text(
         note.title,
         style: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: Colors.black,
