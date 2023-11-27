@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:noteapp/ui/screens/edit_note.dart';
 import 'package:noteapp/ui/screens/note_view.dart';
 
 import '../models/note.dart';
@@ -23,6 +24,12 @@ GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/NoteView',
       builder: (context, state) => NoteView(note: state.extra as Note),
+      routes: [
+        GoRoute(
+          path: 'EditNote',
+          builder: (context, state) => EditNote(state.extra as Note),
+        ),
+      ],
     ),
   ],
 );

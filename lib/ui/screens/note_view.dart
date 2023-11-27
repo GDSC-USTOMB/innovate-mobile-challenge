@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:noteapp/ui/widgets/square_icon_button.dart';
 
 import '../../models/note.dart';
 import '../widgets/go_back_button.dart';
@@ -17,6 +19,18 @@ class NoteView extends StatelessWidget {
       appBar: AppBar(
         leadingWidth: 75,
         leading: const GoBackButton(),
+        actions: [
+          SquareIconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () => context
+                .push(
+                  '/NoteView/EditNote',
+                  extra: note,
+                )
+                .then((value) => context.pop()),
+          ),
+          const SizedBox(width: 25),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
