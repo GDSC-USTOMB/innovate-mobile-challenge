@@ -17,14 +17,14 @@ class NewNoteScreen extends StatefulWidget {
 
 class _NewNoteScreenState extends State<NewNoteScreen> {
   late final TextEditingController titleController;
-  late final TextEditingController noteController;
+  late final TextEditingController contentController;
   late final SaveNewNoteBloc bloc;
 
   @override
   void initState() {
     super.initState();
     titleController = TextEditingController();
-    noteController = TextEditingController();
+    contentController = TextEditingController();
     bloc = GetIt.I.get<SaveNewNoteBloc>();
   }
 
@@ -43,12 +43,18 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
             actions: [
               SquareIconButton(
                 icon: const Icon(Icons.visibility_outlined),
-                onPressed: () {},
+                onPressed: () => context.push(
+                  '/NoteView',
+                  extra: Note(
+                    title: titleController.text,
+                    content: contentController.text,
+                  ),
+                ),
               ),
               const SizedBox(width: 25),
               SaveButton(
                 titleController: titleController,
-                noteController: noteController,
+                noteController: contentController,
                 bloc: bloc,
               ),
               const SizedBox(width: 25),
@@ -71,7 +77,7 @@ class _NewNoteScreenState extends State<NewNoteScreen> {
                   ),
                   const SizedBox(height: 40),
                   TextField(
-                    controller: noteController,
+                    controller: contentController,
                     decoration: const InputDecoration(
                       hintText: 'Note',
                       border: InputBorder.none,
